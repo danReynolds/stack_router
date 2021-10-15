@@ -1,39 +1,96 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Stack router
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+A stack-based routing library using an [IndexedStack](https://api.flutter.dev/flutter/widgets/IndexedStack-class.html) to route between different widgets. Includes its own [Scaffold](), [App Bar]() and [Snack bar]() implementation.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+![Basic demo gif](./demo.gif).
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
 ```dart
-const like = 'sample';
+import 'package:stack_router/stack_router.dart';
+
+class ExampleStackRoutes {
+  static const String firstRoute = 'firstRoute';
+  static const String secondRoute = 'secondRoute';
+}
+
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: StackRouter(
+        initialRoute: ExampleStackRoutes.firstRoute,
+        builder: (router) {
+          return [
+            StackRoute(
+              route: ExampleStackRoutes.firstRoute,
+              child: Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    router.pushRoute(ExampleStackRoutes.secondRoute);
+                  },
+                  child: const Text(
+                    "Go to second route",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+            StackRoute(
+              route: ExampleStackRoutes.secondRoute,
+              child: StackRouterScaffold(
+                appBar: const StackRouterAppBar(
+                  title: Text("I'm a Title", style: TextStyle(fontSize: 24)),
+                ),
+                child: Expanded(
+                  child: Container(
+                    color: Colors.blue,
+                    alignment: Alignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "I'm the second route",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        const Padding(padding: EdgeInsets.only(top: 16)),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.white),
+                          ),
+                          onPressed: () {
+                            router.showSnackBar(
+                              snackBar: const StackRouterSnackBar(
+                                title: Text(
+                                  "I'm a snackbar!",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "Show snack bar",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ];
+        },
+      ),
+    );
+  }
+}
 ```
 
-## Additional information
+To see it in action, try running the [example](./example).
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.

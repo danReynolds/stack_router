@@ -1,7 +1,7 @@
 name: stack_router
-description: A new Flutter package project.
-version: 0.0.1
-homepage:
+description: A stack-based routing library using an [IndexedStack](https://api.flutter.dev/flutter/widgets/IndexedStack-class.html) to route between different widgets. A stack-based routing library using an IndexedStack to route between different widgets.
+version: 1.0.0
+homepage: https://github.com/danReynolds/stack_router
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
