@@ -57,8 +57,9 @@ class _MyHomePageState extends State<MyHomePage> {
             StackRoute(
               route: ExampleStackRoutes.secondRoute,
               child: StackRouterScaffold(
-                title:
-                    const Text("I'm a Title", style: TextStyle(fontSize: 24)),
+                appBar: const StackRouterAppBar(
+                  title: Text("I'm a Title", style: TextStyle(fontSize: 24)),
+                ),
                 child: Expanded(
                   child: Container(
                     color: Colors.blue,

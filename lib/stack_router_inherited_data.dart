@@ -54,22 +54,38 @@ class StackRouterInheritedData extends InheritedWidget {
       hideSnackBar != oldWidget.hideSnackBar;
 
   StackRouterInheritedData copyWith({
-    Widget? child,
+    void Function(String route)? pushRoute,
+    void Function([String route])? popRoute,
+    void Function({
+      String? route,
+      required StackRouterSnackBar snackBar,
+    })?
+        showSnackBar,
+    void Function({String? route})? clearSnackBars,
+    void Function({String? route})? hideSnackBar,
+    String? currentRoute,
     String? route,
+    List<String>? routeHistory,
+    Function({
+      required String route,
+      required StackRouterScaffoldMessenger messenger,
+    })?
+        addMessenger,
     void Function()? onPop,
+    Widget? child,
   }) {
     return StackRouterInheritedData(
       child: child ?? this.child,
-      currentRoute: currentRoute,
-      routeHistory: routeHistory,
-      popRoute: popRoute,
-      pushRoute: pushRoute,
-      showSnackBar: showSnackBar,
-      clearSnackBars: clearSnackBars,
-      hideSnackBar: hideSnackBar,
-      addMessenger: addMessenger,
+      currentRoute: currentRoute ?? this.currentRoute,
+      routeHistory: routeHistory ?? this.routeHistory,
+      popRoute: popRoute ?? this.popRoute,
+      pushRoute: pushRoute ?? this.pushRoute,
+      showSnackBar: showSnackBar ?? this.showSnackBar,
+      clearSnackBars: clearSnackBars ?? this.clearSnackBars,
+      hideSnackBar: hideSnackBar ?? this.hideSnackBar,
+      addMessenger: addMessenger ?? this.addMessenger,
       route: route ?? this.route,
-      onPop: onPop,
+      onPop: onPop ?? this.onPop,
     );
   }
 }

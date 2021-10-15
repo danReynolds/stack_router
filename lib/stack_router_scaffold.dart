@@ -7,29 +7,38 @@ import 'package:stack_router/stack_router_snack_bar.dart';
 import 'package:stack_router/stack_router_snack_bar_for_state.dart';
 import 'package:stack_router/stack_router_snack_bar_queue.dart';
 
+/// A scaffold for a [StackRoute] that provides the route with the ability to show app bars, snack bars and
+/// perform [StackRouterActions] accessible by the injected inherited widget using [StackRouterActions.of(context)].
 class StackRouterScaffold extends StatefulWidget {
+  /// The child widget to display within the scaffold.
   final Widget child;
-  final Widget? title;
-  final Widget? trailing;
+
+  /// An app bar to display at the top of the scaffold.
+  final StackRouterAppBar? appBar;
+
+  /// The color of the scaffold body.
   final Color? color;
+
+  /// The height of the scaffold.
   final double? height;
+
+  /// The width of the scaffold.
   final double? width;
-  final double appBarHeight;
+
+  /// Whether the child widget of the scaffold should extend to under the app bar.
   final bool extendBodyBehindAppBar;
+
+  /// The aligment of the child widget in the scaffold.
   final Alignment? alignment;
-  final bool suppressLeadingBackButton;
 
   const StackRouterScaffold({
     required this.child,
-    this.title,
-    this.trailing,
+    this.appBar,
     this.color,
     this.height,
     this.width,
-    this.extendBodyBehindAppBar = false,
-    this.suppressLeadingBackButton = false,
     this.alignment,
-    this.appBarHeight = stackRouterAppBarHeight,
+    this.extendBodyBehindAppBar = false,
     key,
   }) : super(key: key);
 
@@ -92,11 +101,11 @@ class _StackRouterScaffoldState extends State<StackRouterScaffold> {
       popRoute: stackRouterInheritedData.popRoute,
       clearSnackBars: ({String? route}) {
         final clearSnackBars = stackRouterInheritedData.clearSnackBars;
-        return clearSnackBars(route: route ?? currentRoute);
+        return clearSnackBars(route: route);
       },
       hideSnackBar: ({String? route}) {
         final hideSnackBar = stackRouterInheritedData.hideSnackBar;
-        return hideSnackBar(route: route ?? currentRoute);
+        return hideSnackBar(route: route);
       },
       showSnackBar: ({
         String? route,
@@ -104,7 +113,7 @@ class _StackRouterScaffoldState extends State<StackRouterScaffold> {
       }) {
         final showSnackBar = stackRouterInheritedData.showSnackBar;
         return showSnackBar(
-          route: route ?? currentRoute,
+          route: route,
           snackBar: snackBar,
         );
       },
@@ -116,7 +125,9 @@ class _StackRouterScaffoldState extends State<StackRouterScaffold> {
           children: [
             Container(
               padding: EdgeInsets.only(
-                top: widget.extendBodyBehindAppBar ? 0 : widget.appBarHeight,
+                top: widget.extendBodyBehindAppBar || widget.appBar == null
+                    ? 0
+                    : widget.appBar!.height,
               ),
               child: Container(
                 alignment: widget.alignment,
@@ -132,12 +143,7 @@ class _StackRouterScaffoldState extends State<StackRouterScaffold> {
                 ),
               ),
             ),
-            StackRouterAppBar(
-              title: widget.title,
-              trailing: widget.trailing,
-              height: widget.appBarHeight,
-              suppressLeadingBackButton: widget.suppressLeadingBackButton,
-            ),
+            if (widget.appBar != null) widget.appBar!,
             StackRouterSnackBarForState(
               event: _latestSnackBarEvent,
             ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stack_router/stack_router_snack_bar.dart';
 
+/// The controller for invoking a set of actions on the stack router including pushing/popping routes
+/// and showing/hiding snack bars.
 class StackRouterActions extends InheritedWidget {
   /// Pushes the given route to the top of the stack.
   final Function(String route) pushRoute;

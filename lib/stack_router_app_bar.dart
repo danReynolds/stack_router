@@ -4,17 +4,25 @@ import 'stack_router_inherited_data.dart';
 
 const double stackRouterAppBarHeight = 60;
 
+/// An app bar displayed at the top of the [StackRouterScaffold].
 class StackRouterAppBar extends StatelessWidget {
+  /// A title widget to display in the app bar.
   final Widget? title;
+
+  /// A trailing widget to display at the right side of the app bar.
   final Widget? trailing;
-  final double? height;
+
+  /// The height of the app bar.
+  final double height;
+
+  /// Whether to hide the back button for this route.
   final bool suppressLeadingBackButton;
 
   const StackRouterAppBar({
     required this.title,
     this.trailing,
     this.suppressLeadingBackButton = false,
-    this.height,
+    this.height = stackRouterAppBarHeight,
     key,
   }) : super(key: key);
 
