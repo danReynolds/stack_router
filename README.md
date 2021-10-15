@@ -1,6 +1,6 @@
 # Stack router
 
-A stack-based routing library using an [IndexedStack](https://api.flutter.dev/flutter/widgets/IndexedStack-class.html) to route between different widgets. Includes its own [Scaffold](), [App Bar]() and [Snack bar]() implementation.
+A stack-based routing library using an [IndexedStack](https://api.flutter.dev/flutter/widgets/IndexedStack-class.html) to route between different widgets. Includes its own [Scaffold](https://github.com/danReynolds/stack_router/blob/master/lib/stack_router_scaffold.dart), [App bar](https://github.com/danReynolds/stack_router/blob/master/lib/stack_router_app_bar.dart) and [Snack bar](https://github.com/danReynolds/stack_router/blob/master/lib/stack_router_snack_bar.dart) implementation.
 
 ![Basic demo gif](./demo.gif).
 
