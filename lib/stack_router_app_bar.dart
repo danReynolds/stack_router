@@ -19,7 +19,7 @@ class StackRouterAppBar extends StatelessWidget {
   final bool suppressLeadingBackButton;
 
   const StackRouterAppBar({
-    required this.title,
+    this.title,
     this.trailing,
     this.suppressLeadingBackButton = false,
     this.height = stackRouterAppBarHeight,

@@ -1,3 +1,7 @@
+## 1.0.2
+
+* Provide more examples in documentation
+
 ## 1.0.1
 
 * Update documentation
