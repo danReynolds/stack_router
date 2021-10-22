@@ -46,7 +46,10 @@ class StackRouterAppBar extends StatelessWidget {
 
   Widget _buildLeading(BuildContext context) {
     if (leading != null) {
-      return leading!;
+      return Padding(
+        padding: const EdgeInsets.only(left: 8),
+        child: leading!,
+      );
     }
 
     final inheritedBottomSheetStack = StackRouterInheritedData.of(context)!;
@@ -98,6 +101,7 @@ class StackRouterAppBar extends StatelessWidget {
   build(context) {
     if (title != null ||
         trailing != null ||
+        leading != null ||
         _shouldShowLeadingBackButton(context)) {
       return SizedBox(
         height: height,
