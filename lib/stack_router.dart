@@ -66,7 +66,7 @@ class StackRouterState extends State<StackRouter> {
     final scaffoldMessenger =
         stackRouterScaffoldMessengers[route ?? _currentRoute];
     if (scaffoldMessenger != null) {
-      stackRouterScaffoldMessengers[route]!.clearSnackBars();
+      scaffoldMessenger.clearSnackBars();
     }
   }
 
@@ -75,7 +75,7 @@ class StackRouterState extends State<StackRouter> {
     final scaffoldMessenger =
         stackRouterScaffoldMessengers[route ?? _currentRoute];
     if (scaffoldMessenger != null) {
-      stackRouterScaffoldMessengers[route]!.hideSnackBar();
+      scaffoldMessenger.hideSnackBar();
     }
   }
 
