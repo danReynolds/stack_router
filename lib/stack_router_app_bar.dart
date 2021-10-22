@@ -12,6 +12,9 @@ class StackRouterAppBar extends StatelessWidget {
   /// A trailing widget to display at the right side of the app bar.
   final Widget? trailing;
 
+  /// A leading widget to display at the left side of the app bar.
+  final Widget? leading;
+
   /// The height of the app bar.
   final double height;
 
@@ -20,6 +23,7 @@ class StackRouterAppBar extends StatelessWidget {
 
   const StackRouterAppBar({
     this.title,
+    this.leading,
     this.trailing,
     this.suppressLeadingBackButton = false,
     this.height = stackRouterAppBarHeight,
@@ -36,10 +40,15 @@ class StackRouterAppBar extends StatelessWidget {
 
     return isCurrentRoute &&
         (!isFirstRoute || onPop != null) &&
+        leading == null &&
         !suppressLeadingBackButton;
   }
 
   Widget _buildLeading(BuildContext context) {
+    if (leading != null) {
+      return leading!;
+    }
+
     final inheritedBottomSheetStack = StackRouterInheritedData.of(context)!;
     final onPop = inheritedBottomSheetStack.onPop;
 

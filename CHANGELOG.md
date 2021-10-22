@@ -1,3 +1,7 @@
+## 1.0.4
+
+* Add support for leading widget in `StackRouterAppBar`
+
 ## 1.0.3
 
 * Build a default `appBar` if none provided
