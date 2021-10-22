@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Build a default `appBar` if none provided
+
 ## 1.0.2
 
 * Provide more examples in documentation

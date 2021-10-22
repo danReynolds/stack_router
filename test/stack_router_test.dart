@@ -80,9 +80,6 @@ void main() {
                     const StackRoute(
                       route: TestStackRoutes.secondRoute,
                       child: StackRouterScaffold(
-                        appBar: StackRouterAppBar(
-                          title: Text("I'm a Title"),
-                        ),
                         child: Expanded(
                           child: Center(
                             child: Text(

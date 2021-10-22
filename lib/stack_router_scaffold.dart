@@ -143,7 +143,7 @@ class _StackRouterScaffoldState extends State<StackRouterScaffold> {
                 ),
               ),
             ),
-            if (widget.appBar != null) widget.appBar!,
+            widget.appBar ?? const StackRouterAppBar(),
             StackRouterSnackBarForState(
               event: _latestSnackBarEvent,
             ),
