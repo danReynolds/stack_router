@@ -97,8 +97,6 @@ The basic router APIs for navigating between routes are:
 * `pushRoute(String route)` - Push the given route onto the top of the navigation stack
 * `popRoute([String? route])` - Pop the given route (defaults to the current route) from the navigation stack.
 
-To open the modal flow, we call the `showModalStackRouter` stack router API, passing in the stack router to open.
-
 ## StackRouterActions
 
 Similarly to Flutter Material's [ScaffoldMessenger](https://api.flutter.dev/flutter/material/ScaffoldMessenger-class.html), any child under a [StackRouterScaffold](https://pub.dev/documentation/stack_router/latest/stack_router_scaffold/stack_router_scaffold-library.html) can manipulate the stack router using the [StackRouterActions](https://pub.dev/documentation/stack_router/latest/stack_router_actions/StackRouterActions-class.html) made available by an `InheritedWidget`.
