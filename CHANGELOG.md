@@ -1,3 +1,7 @@
+## 1.0.7
+
+* Remove unnecessary Column widget in StackRouterScaffold
+
 ## 1.0.6
 
 * Fix hide/clear snack bar bug when not current route

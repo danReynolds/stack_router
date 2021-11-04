@@ -131,16 +131,7 @@ class _StackRouterScaffoldState extends State<StackRouterScaffold> {
               ),
               child: Container(
                 alignment: widget.alignment,
-                // While the child of the scaffold is wrapped in a stack in order
-                // to support the appbar and snackbar, the child itself typically
-                // wants a column as its parent as opposed to a stack so that it
-                // can support flex widgets. We get around that here by wrapping the
-                // child in a column.
-                child: Column(
-                  children: [
-                    widget.child,
-                  ],
-                ),
+                child: widget.child,
               ),
             ),
             widget.appBar ?? const StackRouterAppBar(),
