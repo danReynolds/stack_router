@@ -1,6 +1,6 @@
 # Stack router
 
-A stack-based routing library using an [IndexedStack](https://api.flutter.dev/flutter/widgets/IndexedStack-class.html) to route between different widgets. Includes its own [Scaffold](https://github.com/danReynolds/stack_router/blob/master/lib/stack_router_scaffold.dart), [App bar](https://github.com/danReynolds/stack_router/blob/master/lib/stack_router_app_bar.dart) and [Snack bar](https://github.com/danReynolds/stack_router/blob/master/lib/stack_router_snack_bar.dart) implementation.
+Stack routers use an [IndexedStack](https://api.flutter.dev/flutter/widgets/IndexedStack-class.html){:target="_blank"} to route between different widgets. They come with their own scaffolds, app bars and snack bars similarly to the ones provided by the core Flutter UI library.
 
 ![Basic demo gif](./demo.gif).
 
@@ -90,28 +90,14 @@ class Home extends StatelessWidget {
 }
 ```
 
-To see it in action, try running the [example](./example).
+In this example, the first route consists of a button that navigates to the second route using the `router.pushRoute` API when it is pressed.
 
-## Persist routes
+The basic router APIs for navigating between routes are:
 
-Stack routers are useful when you want to build flows with a pre-defined set of routes. It works by providing the widgets for your routes to an [IndexedStack](https://api.flutter.dev/flutter/widgets/IndexedStack-class.html) and switches the index to the current route. Because it uses an `IndexedStack`, it has some interesting properties like the ability to warm up and persist routes:
+* `pushRoute(String route)` - Push the given route onto the top of the navigation stack
+* `popRoute([String? route])` - Pop the given route (defaults to the current route) from the navigation stack.
 
-```dart
-StackRoute(
-  route: ExampleStackRoutes.secondRoute,
-  persist: true,
-  child: Center(
-    child: const Text(
-      "Second route",
-      style: TextStyle(color: Colors.white),
-    ),
-  ),
-);
-```
-
-By default a route in the stack router is not built until it has been pushed on. If you want to warm up a particular route that you know fetches data or takes time to build, you can specify `persist=true` on the route so that even if it hasn't been shown to the user yet, it will build itself ahead of time when the [StackRouter] builds and be ready for users when they later navigate to it.
-
-By default, all routes in the current [StackRouter] history are persisted so that when you push on a 2nd route and pop back to the first, it is still the same widget and has maintained all the temporal state like any form data or changes the user may have made to the route before navigating away.
+To open the modal flow, we call the `showModalStackRouter` stack router API, passing in the stack router to open.
 
 ## StackRouterActions
 
@@ -161,7 +147,13 @@ class SecondRoute extends StatelessWidget {
 
 ## Snack bars
 
-Stack router snack bars are queued per route.
+Snack bars are queued per route and can can be shown or hidden with the router snack bar APIs:
+
+* `showSnackBar({ required StackRouterSnackBar snackBar, String? route })` - Display a snack bar on the provided route (default is current route).
+* `hideSnackBar({ String? route })` - Clear the current snack bar on the provided route (default is current route).
+* `clearSnackBars({ String? route })` - Clear all snack bars from the given route (default is the current route).
+
+In the following example, two snack bars are queued up on the current route when the button is pressed:
 
 ```dart
 class SecondRoute extends StatelessWidget {
@@ -205,7 +197,7 @@ class SecondRoute extends StatelessWidget {
 
 ![Snack bar demo gif](./demo2.gif).
 
-You can also show snackbars on other routes from the current one:
+You can also show snackbars on a different route than the current one:
 
 ```dart
 class SecondRoute extends StatelessWidget {
@@ -250,6 +242,27 @@ class SecondRoute extends StatelessWidget {
 
 ![Snack bar demo gif](./demo3.gif).
 
+## Persisted Routes
+
+Stack routers pass the widgets specified in the routes list to an `IndexedStack` widget that chooses which route to display. Because routes are managed by an `IndexedStack`, it has some interesting properties like the ability to warm up and persist routes:
+
+```dart
+StackRoute(
+  route: ExampleStackRoutes.secondRoute,
+  persist: true,
+  child: Center(
+    child: const Text(
+      "Second route",
+      style: TextStyle(color: Colors.white),
+    ),
+  ),
+);
+```
+
+By default, a route in the stack router is not built until it has been pushed on. All routes that have been pushed on are maintained in the `StackRouter` history and are persisted so that when you push on a second route and pop back to the first, it is still the same widget instance and has maintained all the temporal state like any form data or changes the user may have made to the route before navigating away.
+
+If you want to warm up a particular route even before it has been navigated to, you can specify `persist: true` on the route so that it will optimistically build when the `StackRouter` is first instantiated. This is useful for routes in a flow that are likely to be navigated to and are slower to build because of network data requirements or deep build trees.
+
 ## Building modal flows
 
-Stack routers can be useful for building modal flows and wizards like are common on large screen platforms like desktop web. To build modal flows with `StackRouter`, check out [modal_stack_router](https://pub.dev/packages/modal_stack_router).
+Stack routers can be useful for building modal flows and wizards like those that are commonly seen on platforms like desktop web. To build modal flows with `StackRouter`, check out [modal_stack_router](https://pub.dev/packages/modal_stack_router).
