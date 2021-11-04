@@ -44,42 +44,40 @@ class Home extends StatelessWidget {
                 appBar: const StackRouterAppBar(
                   title: Text("I'm a Title", style: TextStyle(fontSize: 24)),
                 ),
-                child: Expanded(
-                  child: Container(
-                    color: Colors.blue,
-                    alignment: Alignment.center,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "I'm the second route",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
+                child: Container(
+                  color: Colors.blue,
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "I'm the second route",
+                        style: TextStyle(
+                          color: Colors.white,
                         ),
-                        const Padding(padding: EdgeInsets.only(top: 16)),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white),
-                          ),
-                          onPressed: () {
-                            router.showSnackBar(
-                              snackBar: const StackRouterSnackBar(
-                                title: Text(
-                                  "I'm a snackbar!",
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                      ),
+                      const Padding(padding: EdgeInsets.only(top: 16)),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                        ),
+                        onPressed: () {
+                          router.showSnackBar(
+                            snackBar: const StackRouterSnackBar(
+                              title: Text(
+                                "I'm a snackbar!",
+                                style: TextStyle(color: Colors.white),
                               ),
-                            );
-                          },
-                          child: const Text(
-                            "Show snack bar",
-                            style: TextStyle(color: Colors.black),
-                          ),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          "Show snack bar",
+                          style: TextStyle(color: Colors.black),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
