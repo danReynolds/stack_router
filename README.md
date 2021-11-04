@@ -1,6 +1,6 @@
 # Stack router
 
-Stack routers use an [IndexedStack](https://api.flutter.dev/flutter/widgets/IndexedStack-class.html){:target="_blank"} to route between different widgets. They come with their own scaffolds, app bars and snack bars similarly to the ones provided by the core Flutter UI library.
+Stack routers use an [IndexedStack](https://api.flutter.dev/flutter/widgets/IndexedStack-class.html) to route between different widgets. They come with their own scaffolds, app bars and snack bars similarly to the ones provided by the core Flutter UI library.
 
 ![Basic demo gif](./demo.gif).
 
