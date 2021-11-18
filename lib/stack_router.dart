@@ -2,6 +2,7 @@ library stack_router;
 
 import 'package:flutter/material.dart';
 import 'package:stack_router/stack_route.dart';
+import 'package:stack_router/stack_router_controller.dart';
 import 'package:stack_router/stack_router_inherited_data.dart';
 import 'package:stack_router/stack_router_scaffold_messenger.dart';
 import 'package:stack_router/stack_router_snack_bar.dart';
@@ -21,9 +22,12 @@ class StackRouter extends StatefulWidget {
   /// The initial route to display.
   final String? initialRoute;
 
+  final StackRouterController? controller;
+
   const StackRouter({
     required this.builder,
     this.initialRoute,
+    this.controller,
     key,
   }) : super(key: key);
 
@@ -38,6 +42,22 @@ class StackRouterState extends State<StackRouter> {
   Map<String, int> routeIndices = {};
   List<StackRoute>? children;
   Map<String, StackRouterScaffoldMessenger> stackRouterScaffoldMessengers = {};
+
+  @override
+  initState() {
+    super.initState();
+
+    final controller = widget.controller;
+
+    if (controller != null) {
+      controller.clearSnackBars = clearSnackBars;
+      controller.hideSnackBar = hideSnackBar;
+      controller.showSnackBar = showSnackBar;
+      controller.pushReplacementRoute = pushReplacementRoute;
+      controller.pushRoute = pushRoute;
+      controller.popRoute = popRoute;
+    }
+  }
 
   _addMessenger({
     required String route,

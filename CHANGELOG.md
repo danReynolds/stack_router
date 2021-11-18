@@ -1,3 +1,6 @@
+## 1.1.0
+
+* Add a `StackRouterController` for manipulating the router.
 ## 1.0.7
 
 * Remove unnecessary Column widget in StackRouterScaffold
