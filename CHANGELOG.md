@@ -1,3 +1,7 @@
+## 1.2.1
+
+* Handle dynamic route changes.
+
 ## 1.2.0
 
 * Support updating the system navigator when route changes occur.

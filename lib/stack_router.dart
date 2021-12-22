@@ -109,7 +109,6 @@ class StackRouterState extends State<StackRouter> {
     }
 
     setState(() {
-      _tabIndex = routeIndices[route]!;
       _currentRoute = route;
     });
   }
@@ -149,8 +148,11 @@ class StackRouterState extends State<StackRouter> {
     // and the history is hydrated with that route.
     if (_currentRoute == null) {
       _currentRoute = widget.initialRoute ?? children![0].route;
-      _tabIndex = routeIndices[_currentRoute]!;
       _routeHistory = [_currentRoute!];
+    }
+
+    if (routeIndices[_currentRoute] != null) {
+      _tabIndex = routeIndices[_currentRoute]!;
     }
 
     return StackRouterInheritedData(
