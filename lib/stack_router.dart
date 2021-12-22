@@ -1,6 +1,7 @@
 library stack_router;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:stack_router/stack_route.dart';
 import 'package:stack_router/stack_router_controller.dart';
 import 'package:stack_router/stack_router_inherited_data.dart';
@@ -24,10 +25,13 @@ class StackRouter extends StatefulWidget {
 
   final StackRouterController? controller;
 
+  final bool notifyRouteChanges;
+
   const StackRouter({
     required this.builder,
     this.initialRoute,
     this.controller,
+    this.notifyRouteChanges = true,
     key,
   }) : super(key: key);
 
@@ -100,6 +104,10 @@ class StackRouterState extends State<StackRouter> {
   }
 
   _setRoute(String route) {
+    if (widget.notifyRouteChanges) {
+      SystemNavigator.routeInformationUpdated(location: route);
+    }
+
     setState(() {
       _tabIndex = routeIndices[route]!;
       _currentRoute = route;

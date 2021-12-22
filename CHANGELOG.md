@@ -1,3 +1,7 @@
+## 1.2.0
+
+* Support updating the system navigator when route changes occur.
+
 ## 1.1.0
 
 * Add a `StackRouterController` for manipulating the router.
