@@ -148,6 +148,9 @@ class StackRouterState extends State<StackRouter> {
     // and the history is hydrated with that route.
     if (_currentRoute == null) {
       _currentRoute = widget.initialRoute ?? children![0].route;
+      if (widget.notifyRouteChanges) {
+        SystemNavigator.routeInformationUpdated(location: _currentRoute!);
+      }
       _routeHistory = [_currentRoute!];
     }
 

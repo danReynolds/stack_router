@@ -1,3 +1,7 @@
+## 1.2.2
+
+* Report the first route shown as a navigation event.
+
 ## 1.2.1
 
 * Handle dynamic route changes.
