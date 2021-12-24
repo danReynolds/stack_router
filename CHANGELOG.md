@@ -1,3 +1,7 @@
+## 1.3.0
+
+Add a handler for route changes.
+
 ## 1.2.2
 
 * Report the first route shown as a navigation event.

@@ -23,15 +23,22 @@ class StackRouter extends StatefulWidget {
   /// The initial route to display.
   final String? initialRoute;
 
+  /// The controller for the stack router used to imperatively change routes and interact
+  /// with the route snack bars.
   final StackRouterController? controller;
 
-  final bool notifyRouteChanges;
+  /// Whether route changes should notify the system navigator to trigger URI
+  /// updates on Flutter web.
+  final bool notifySystemNavigator;
+
+  final void Function(String route)? onRouteChange;
 
   const StackRouter({
     required this.builder,
     this.initialRoute,
     this.controller,
-    this.notifyRouteChanges = true,
+    this.onRouteChange,
+    this.notifySystemNavigator = true,
     key,
   }) : super(key: key);
 
@@ -103,14 +110,22 @@ class StackRouterState extends State<StackRouter> {
     }
   }
 
-  _setRoute(String route) {
-    if (widget.notifyRouteChanges) {
-      SystemNavigator.routeInformationUpdated(location: route);
+  _notifyRouteChange() {
+    if (widget.notifySystemNavigator) {
+      SystemNavigator.routeInformationUpdated(location: _currentRoute!);
     }
 
+    if (widget.onRouteChange != null) {
+      widget.onRouteChange!(_currentRoute!);
+    }
+  }
+
+  _setRoute(String route) {
     setState(() {
       _currentRoute = route;
     });
+
+    _notifyRouteChange();
   }
 
   /// Pushes the given route on top of the router stack.
@@ -148,10 +163,10 @@ class StackRouterState extends State<StackRouter> {
     // and the history is hydrated with that route.
     if (_currentRoute == null) {
       _currentRoute = widget.initialRoute ?? children![0].route;
-      if (widget.notifyRouteChanges) {
-        SystemNavigator.routeInformationUpdated(location: _currentRoute!);
-      }
       _routeHistory = [_currentRoute!];
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        _notifyRouteChange();
+      });
     }
 
     if (routeIndices[_currentRoute] != null) {
