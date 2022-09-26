@@ -1,3 +1,7 @@
+## 1.3.2
+
+Always default controller.
+
 ## 1.3.1
 
 Expose StackRouterController.

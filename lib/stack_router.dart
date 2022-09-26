@@ -53,22 +53,20 @@ class StackRouterState extends State<StackRouter> {
   String? _currentRoute;
   Map<String, int> routeIndices = {};
   List<StackRoute>? children;
+  late final StackRouterController controller;
   Map<String, StackRouterScaffoldMessenger> stackRouterScaffoldMessengers = {};
 
   @override
   initState() {
     super.initState();
 
-    final controller = widget.controller;
-
-    if (controller != null) {
-      controller.clearSnackBars = clearSnackBars;
-      controller.hideSnackBar = hideSnackBar;
-      controller.showSnackBar = showSnackBar;
-      controller.pushReplacementRoute = pushReplacementRoute;
-      controller.pushRoute = pushRoute;
-      controller.popRoute = popRoute;
-    }
+    controller = widget.controller ?? StackRouterController();
+    controller.clearSnackBars = clearSnackBars;
+    controller.hideSnackBar = hideSnackBar;
+    controller.showSnackBar = showSnackBar;
+    controller.pushReplacementRoute = pushReplacementRoute;
+    controller.pushRoute = pushRoute;
+    controller.popRoute = popRoute;
   }
 
   _addMessenger({
