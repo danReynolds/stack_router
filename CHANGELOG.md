@@ -1,3 +1,7 @@
+## 1.3.1
+
+Expose StackRouterController.
+
 ## 1.3.0
 
 Add a handler for route changes.

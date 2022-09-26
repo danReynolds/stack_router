@@ -14,6 +14,7 @@ export 'package:stack_router/stack_router_actions.dart';
 export 'package:stack_router/stack_router_scaffold.dart';
 export 'package:stack_router/stack_router_app_bar.dart';
 export 'package:stack_router/stack_router_snack_bar_action.dart';
+export 'package:stack_router/stack_router_controller.dart';
 
 /// A router for displaying and routing to/from widgets using an IndexedStack.
 class StackRouter extends StatefulWidget {
@@ -164,7 +165,7 @@ class StackRouterState extends State<StackRouter> {
     if (_currentRoute == null) {
       _currentRoute = widget.initialRoute ?? children![0].route;
       _routeHistory = [_currentRoute!];
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         _notifyRouteChange();
       });
     }
