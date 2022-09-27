@@ -1,3 +1,7 @@
+## 1.3.3
+
+Support passing a parent key.
+
 ## 1.3.2
 
 Always default controller.

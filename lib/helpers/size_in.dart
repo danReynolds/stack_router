@@ -39,7 +39,7 @@ class _SizeInState extends State<SizeIn> with SingleTickerProviderStateMixin {
     _size = widget.initialSize;
     _dimension = widget.dimension ?? SizeInDimension.both;
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.delay == null) {
         setState(() {
           _size = widget.size;

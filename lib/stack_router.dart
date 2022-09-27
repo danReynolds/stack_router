@@ -2,6 +2,7 @@ library stack_router;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:stack_router/inherited_value.dart';
 import 'package:stack_router/stack_route.dart';
 import 'package:stack_router/stack_router_controller.dart';
 import 'package:stack_router/stack_router_inherited_data.dart';
@@ -15,6 +16,8 @@ export 'package:stack_router/stack_router_scaffold.dart';
 export 'package:stack_router/stack_router_app_bar.dart';
 export 'package:stack_router/stack_router_snack_bar_action.dart';
 export 'package:stack_router/stack_router_controller.dart';
+export 'package:stack_router/inherited_value.dart';
+export 'package:stack_router/stack_router_inherited_data.dart';
 
 /// A router for displaying and routing to/from widgets using an IndexedStack.
 class StackRouter extends StatefulWidget {
@@ -173,6 +176,7 @@ class StackRouterState extends State<StackRouter> {
     }
 
     return StackRouterInheritedData(
+      key: widget.key ?? InheritedValue.of(context)?.value,
       showSnackBar: showSnackBar,
       hideSnackBar: hideSnackBar,
       clearSnackBars: clearSnackBars,
