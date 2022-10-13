@@ -1,3 +1,7 @@
+## 1.4.0
+
+Support passing an initial route history.
+
 ## 1.3.3
 
 Support passing a parent key.

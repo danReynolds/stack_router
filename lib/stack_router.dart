@@ -35,11 +35,14 @@ class StackRouter extends StatefulWidget {
   /// updates on Flutter web.
   final bool notifySystemNavigator;
 
+  final List<String> initialHistory;
+
   final void Function(String route)? onRouteChange;
 
   const StackRouter({
     required this.builder,
     this.initialRoute,
+    this.initialHistory = const [],
     this.controller,
     this.onRouteChange,
     this.notifySystemNavigator = true,
@@ -165,7 +168,7 @@ class StackRouterState extends State<StackRouter> {
     // and the history is hydrated with that route.
     if (_currentRoute == null) {
       _currentRoute = widget.initialRoute ?? children![0].route;
-      _routeHistory = [_currentRoute!];
+      _routeHistory = [...widget.initialHistory, _currentRoute!];
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _notifyRouteChange();
       });
