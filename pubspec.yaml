@@ -1,6 +1,6 @@
 name: stack_router
 description: A stack-based routing library using an IndexedStack to route between different widgets. A stack-based routing library using an IndexedStack to route between different widgets.
-version: 1.3.3
+version: 1.4.0
 homepage: https://github.com/danReynolds/stack_router
 
 environment:
