@@ -53,7 +53,6 @@ class StackRouterAppBar extends StatelessWidget {
     }
 
     final inheritedBottomSheetStack = StackRouterInheritedData.of(context)!;
-    final onPop = inheritedBottomSheetStack.onPop;
 
     if (_shouldShowLeadingBackButton(context)) {
       return Padding(
@@ -65,11 +64,7 @@ class StackRouterAppBar extends StatelessWidget {
             color: Colors.grey[700],
           ),
           onTap: () {
-            if (onPop != null) {
-              onPop();
-            } else {
-              inheritedBottomSheetStack.popRoute();
-            }
+            inheritedBottomSheetStack.popRoute();
           },
         ),
       );

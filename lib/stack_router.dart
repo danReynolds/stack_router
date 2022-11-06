@@ -147,12 +147,19 @@ class StackRouterState extends State<StackRouter> {
 
   /// Pops the given route from the router stack history. Defaults to the current route.
   void popRoute([String? route]) {
-    final backRoute = route ?? _routeHistory[_routeHistory.length - 2];
+    route ??= _routeHistory.last;
+    final isCurrentRoute = route == _routeHistory.last;
 
-    final lastIndexOfRoute = _routeHistory.lastIndexOf(backRoute);
-    _routeHistory = _routeHistory.sublist(0, lastIndexOfRoute + 1);
+    if (!_routeHistory.contains(route)) {
+      return;
+    }
 
-    _setRoute(backRoute);
+    _routeHistory.remove(route);
+    children![routeIndices[route]!].onPop?.call();
+
+    if (isCurrentRoute) {
+      _setRoute(_routeHistory.last);
+    }
   }
 
   @override
