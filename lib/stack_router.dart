@@ -54,9 +54,8 @@ class StackRouter extends StatefulWidget {
 }
 
 class StackRouterState extends State<StackRouter> {
-  int _tabIndex = 0;
+  int _stackIndex = 0;
   List<String> _routeHistory = [];
-  String? _currentRoute;
   Map<String, int> routeIndices = {};
   List<StackRoute>? children;
   late final StackRouterController controller;
@@ -73,6 +72,7 @@ class StackRouterState extends State<StackRouter> {
     controller.pushReplacementRoute = pushReplacementRoute;
     controller.pushRoute = pushRoute;
     controller.popRoute = popRoute;
+    controller.switchRoute = switchRoute;
   }
 
   _addMessenger({
@@ -80,6 +80,14 @@ class StackRouterState extends State<StackRouter> {
     required StackRouterScaffoldMessenger messenger,
   }) {
     stackRouterScaffoldMessengers[route] = messenger;
+  }
+
+  String? get currentRoute {
+    if (_routeHistory.isEmpty) {
+      return null;
+    }
+
+    return _routeHistory.last;
   }
 
   /// Displays a [StackRouterSnackBar] bottom of the [StackRouterScaffold] for the given route. Defaults to the current route.
@@ -91,7 +99,7 @@ class StackRouterState extends State<StackRouter> {
     String? route,
   }) {
     final scaffoldMessenger =
-        stackRouterScaffoldMessengers[route ?? _currentRoute];
+        stackRouterScaffoldMessengers[route ?? currentRoute];
     if (scaffoldMessenger != null) {
       scaffoldMessenger.showSnackBar(snackBar);
     }
@@ -100,7 +108,7 @@ class StackRouterState extends State<StackRouter> {
   /// Clears all snack bars on the given route. Defaults to the current route.
   void clearSnackBars({String? route}) {
     final scaffoldMessenger =
-        stackRouterScaffoldMessengers[route ?? _currentRoute];
+        stackRouterScaffoldMessengers[route ?? currentRoute];
     if (scaffoldMessenger != null) {
       scaffoldMessenger.clearSnackBars();
     }
@@ -109,7 +117,7 @@ class StackRouterState extends State<StackRouter> {
   /// Hides the active snack bar on the given route. Defaults to the current route.
   void hideSnackBar({String? route}) {
     final scaffoldMessenger =
-        stackRouterScaffoldMessengers[route ?? _currentRoute];
+        stackRouterScaffoldMessengers[route ?? currentRoute];
     if (scaffoldMessenger != null) {
       scaffoldMessenger.hideSnackBar();
     }
@@ -117,49 +125,58 @@ class StackRouterState extends State<StackRouter> {
 
   _notifyRouteChange() {
     if (widget.notifySystemNavigator) {
-      SystemNavigator.routeInformationUpdated(location: _currentRoute!);
+      SystemNavigator.routeInformationUpdated(location: currentRoute!);
     }
 
     if (widget.onRouteChange != null) {
-      widget.onRouteChange!(_currentRoute!);
+      widget.onRouteChange!(currentRoute!);
     }
-  }
-
-  _setRoute(String route) {
-    setState(() {
-      _currentRoute = route;
-    });
-
-    _notifyRouteChange();
   }
 
   /// Pushes the given route on top of the router stack.
   void pushRoute(String route) {
-    _routeHistory.add(route);
-    _setRoute(route);
+    setState(() {
+      _routeHistory.add(route);
+    });
+    _notifyRouteChange();
   }
 
-  /// Pushes the given route on top of the router stack and clears the router stack history.
+  /// Removes the current route at the top of the stack and replaces it with the provided one.
   void pushReplacementRoute(String route) {
-    _routeHistory = [route];
-    _setRoute(route);
+    setState(() {
+      _routeHistory.removeLast();
+      _routeHistory.add(route);
+    });
+    _notifyRouteChange();
+  }
+
+  /// Switches the current route to the provided route by moving it from its previous
+  /// position in the stack to the top or adding it to the top if it is not already present
+  /// in the stack's history.
+  void switchRoute(String route) {
+    setState(() {
+      if (_routeHistory.contains(route)) {
+        _routeHistory.remove(route);
+      }
+      _routeHistory.add(route);
+    });
+    _notifyRouteChange();
   }
 
   /// Pops the given route from the router stack history. Defaults to the current route.
   void popRoute([String? route]) {
     route ??= _routeHistory.last;
-    final isCurrentRoute = route == _routeHistory.last;
 
     if (!_routeHistory.contains(route)) {
       return;
     }
 
-    _routeHistory.remove(route);
-    children![routeIndices[route]!].onPop?.call();
+    setState(() {
+      _routeHistory.remove(route);
+      children![routeIndices[route]!].onPop?.call();
+    });
 
-    if (isCurrentRoute) {
-      _setRoute(_routeHistory.last);
-    }
+    _notifyRouteChange();
   }
 
   @override
@@ -170,19 +187,29 @@ class StackRouterState extends State<StackRouter> {
       routeIndices[child.route] = index;
     });
 
+    final initialRoute = widget.initialRoute;
+    final initialHistory = widget.initialHistory;
+
     // Initialize the first route by selecting either an initial route or just
     // the first element in the stack. The tab index is set to the index of that route
     // and the history is hydrated with that route.
-    if (_currentRoute == null) {
-      _currentRoute = widget.initialRoute ?? children![0].route;
-      _routeHistory = [...widget.initialHistory, _currentRoute!];
+    if (_routeHistory.isEmpty) {
+      if (widget.initialHistory.isEmpty) {
+        _routeHistory = [initialRoute ?? children![0].route];
+      } else {
+        _routeHistory = [...initialHistory];
+        if (initialRoute != null) {
+          _routeHistory.add(initialRoute);
+        }
+      }
+
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _notifyRouteChange();
       });
     }
 
-    if (routeIndices[_currentRoute] != null) {
-      _tabIndex = routeIndices[_currentRoute]!;
+    if (routeIndices[currentRoute] != null) {
+      _stackIndex = routeIndices[currentRoute]!;
     }
 
     return StackRouterInheritedData(
@@ -192,11 +219,11 @@ class StackRouterState extends State<StackRouter> {
       clearSnackBars: clearSnackBars,
       pushRoute: pushRoute,
       popRoute: popRoute,
-      currentRoute: _currentRoute!,
+      switchRoute: switchRoute,
       routeHistory: _routeHistory,
       addMessenger: _addMessenger,
       child: IndexedStack(
-        index: _tabIndex,
+        index: _stackIndex,
         children: children!,
       ),
     );

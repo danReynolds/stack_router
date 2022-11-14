@@ -99,6 +99,7 @@ class _StackRouterScaffoldState extends State<StackRouterScaffold> {
     return StackRouterActions(
       pushRoute: stackRouterInheritedData.pushRoute,
       popRoute: stackRouterInheritedData.popRoute,
+      switchRoute: stackRouterInheritedData.switchRoute,
       clearSnackBars: ({String? route}) {
         final clearSnackBars = stackRouterInheritedData.clearSnackBars;
         return clearSnackBars(route: route);

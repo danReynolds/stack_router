@@ -5,13 +5,13 @@ import 'package:stack_router/stack_router_snack_bar.dart';
 class StackRouterInheritedData extends InheritedWidget {
   final void Function(String route) pushRoute;
   final void Function([String route]) popRoute;
+  final void Function(String route) switchRoute;
   final void Function({
     String? route,
     required StackRouterSnackBar snackBar,
   }) showSnackBar;
   final void Function({String? route}) clearSnackBars;
   final void Function({String? route}) hideSnackBar;
-  final String currentRoute;
   final String? route;
   final List<String> routeHistory;
   final Function({
@@ -21,10 +21,10 @@ class StackRouterInheritedData extends InheritedWidget {
   final void Function()? onPop;
 
   const StackRouterInheritedData({
-    required this.currentRoute,
     required this.routeHistory,
     required this.popRoute,
     required this.pushRoute,
+    required this.switchRoute,
     required this.showSnackBar,
     required this.clearSnackBars,
     required this.hideSnackBar,
@@ -35,6 +35,14 @@ class StackRouterInheritedData extends InheritedWidget {
     key,
   }) : super(key: key, child: child);
 
+  String? get currentRoute {
+    if (routeHistory.isEmpty) {
+      return null;
+    }
+
+    return routeHistory.last;
+  }
+
   static StackRouterInheritedData? of(BuildContext context) {
     return context
         .dependOnInheritedWidgetOfExactType<StackRouterInheritedData>();
@@ -43,11 +51,11 @@ class StackRouterInheritedData extends InheritedWidget {
   @override
   bool updateShouldNotify(StackRouterInheritedData oldWidget) =>
       popRoute != oldWidget.popRoute ||
-      currentRoute != oldWidget.currentRoute ||
       route != oldWidget.route ||
       routeHistory != oldWidget.routeHistory ||
       popRoute != oldWidget.popRoute ||
       pushRoute != oldWidget.pushRoute ||
+      switchRoute != oldWidget.switchRoute ||
       showSnackBar != oldWidget.showSnackBar ||
       clearSnackBars != oldWidget.clearSnackBars ||
       onPop != oldWidget.onPop ||
@@ -56,6 +64,7 @@ class StackRouterInheritedData extends InheritedWidget {
   StackRouterInheritedData copyWith({
     void Function(String route)? pushRoute,
     void Function([String route])? popRoute,
+    void Function(String route)? switchRoute,
     void Function({
       String? route,
       required StackRouterSnackBar snackBar,
@@ -76,10 +85,10 @@ class StackRouterInheritedData extends InheritedWidget {
   }) {
     return StackRouterInheritedData(
       child: child ?? this.child,
-      currentRoute: currentRoute ?? this.currentRoute,
       routeHistory: routeHistory ?? this.routeHistory,
       popRoute: popRoute ?? this.popRoute,
       pushRoute: pushRoute ?? this.pushRoute,
+      switchRoute: switchRoute ?? this.switchRoute,
       showSnackBar: showSnackBar ?? this.showSnackBar,
       clearSnackBars: clearSnackBars ?? this.clearSnackBars,
       hideSnackBar: hideSnackBar ?? this.hideSnackBar,

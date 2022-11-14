@@ -79,14 +79,10 @@ void main() {
                     ),
                     const StackRoute(
                       route: TestStackRoutes.secondRoute,
-                      child: StackRouterScaffold(
-                        child: Expanded(
-                          child: Center(
-                            child: Text(
-                              "I'm the second route",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
+                      child: Center(
+                        child: Text(
+                          "I'm the second route",
+                          style: TextStyle(color: Colors.black),
                         ),
                       ),
                     ),
@@ -102,6 +98,119 @@ void main() {
       routerState.pushRoute(TestStackRoutes.secondRoute);
 
       await screenMatchesGolden(tester, 'push_route', customPump: (widget) {
+        return widget.pump(Duration.zero);
+      });
+    },
+  );
+
+  testGoldens(
+    'Pop second route',
+    (WidgetTester tester) async {
+      await loadAppFonts();
+
+      late StackRouterState routerState;
+
+      final builder = GoldenBuilder.column()
+        ..addScenario(
+          'Pop second route',
+          SizedBox(
+            height: 500,
+            width: double.infinity,
+            child: Material(
+              child: StackRouter(
+                initialRoute: TestStackRoutes.firstRoute,
+                builder: (router) {
+                  routerState = router;
+                  return [
+                    const StackRoute(
+                      route: TestStackRoutes.firstRoute,
+                      child: Center(
+                        child: Text(
+                          "I'm the first route",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                    const StackRoute(
+                      route: TestStackRoutes.secondRoute,
+                      child: StackRouterScaffold(
+                        child: Center(
+                          child: Text(
+                            "I'm the second route",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ];
+                },
+              ),
+            ),
+          ),
+        );
+
+      await tester.pumpWidgetBuilder(builder.build());
+
+      routerState.pushRoute(TestStackRoutes.secondRoute);
+      routerState.popRoute();
+
+      await screenMatchesGolden(tester, 'pop_route', customPump: (widget) {
+        return widget.pump(Duration.zero);
+      });
+    },
+  );
+
+  testGoldens(
+    'Switch second route',
+    (WidgetTester tester) async {
+      await loadAppFonts();
+
+      late StackRouterState routerState;
+
+      final builder = GoldenBuilder.column()
+        ..addScenario(
+          'Switch second route',
+          SizedBox(
+            height: 500,
+            width: double.infinity,
+            child: Material(
+              child: StackRouter(
+                initialRoute: TestStackRoutes.firstRoute,
+                builder: (router) {
+                  routerState = router;
+                  return [
+                    const StackRoute(
+                      route: TestStackRoutes.firstRoute,
+                      child: Center(
+                        child: Text(
+                          "I'm the first route",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                    const StackRoute(
+                      route: TestStackRoutes.secondRoute,
+                      child: StackRouterScaffold(
+                        child: Center(
+                          child: Text(
+                            "I'm the second route",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ];
+                },
+              ),
+            ),
+          ),
+        );
+
+      await tester.pumpWidgetBuilder(builder.build());
+
+      routerState.switchRoute(TestStackRoutes.secondRoute);
+
+      await screenMatchesGolden(tester, 'switch_route', customPump: (widget) {
         return widget.pump(Duration.zero);
       });
     },

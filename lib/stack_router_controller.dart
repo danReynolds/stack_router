@@ -19,9 +19,14 @@ class StackRouterController {
   /// Pushes the given route on top of the router stack.
   late void Function(String route) pushRoute;
 
-  /// Pushes the given route on top of the router stack and clears the router stack history.
+  /// Pushes the given route on top of the router stack and removes the previous route.
   late void Function(String route) pushReplacementRoute;
 
   /// Pops the given route from the router stack history. Defaults to the current route.
   late void Function([String? route]) popRoute;
+
+  /// Switches the current route to the provided route by moving it from its previous
+  /// position in the stack to the top or adding it to the top if it is not already present
+  /// in the stack's history.
+  late final void Function(String route) switchRoute;
 }

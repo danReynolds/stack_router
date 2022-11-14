@@ -1,3 +1,7 @@
+## 1.5.0
+
+Add `switchRoute` API and minor refactors.
+
 ## 1.4.0
 
 Support passing an initial route history.

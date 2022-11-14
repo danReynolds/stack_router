@@ -10,6 +10,11 @@ class StackRouterActions extends InheritedWidget {
   /// Pops the give route off the stack. Defaults to the current route.
   final Function([String route]) popRoute;
 
+  /// Switches the current route to the provided route by moving it from its previous
+  /// position in the stack to the top or adding it to the top if it is not already present
+  /// in the stack's history.
+  final void Function(String route) switchRoute;
+
   /// Shows a snack bar on the given route. Defaults to the current route.
   final Function({
     String route,
@@ -26,6 +31,7 @@ class StackRouterActions extends InheritedWidget {
     required child,
     required this.pushRoute,
     required this.popRoute,
+    required this.switchRoute,
     required this.showSnackBar,
     required this.clearSnackBars,
     required this.hideSnackBar,
@@ -42,5 +48,6 @@ class StackRouterActions extends InheritedWidget {
       clearSnackBars != oldWidget.clearSnackBars ||
       pushRoute != oldWidget.pushRoute ||
       popRoute != oldWidget.popRoute ||
+      switchRoute != oldWidget.switchRoute ||
       hideSnackBar != oldWidget.hideSnackBar;
 }
