@@ -87,6 +87,7 @@ class _StackRouterScaffoldState extends State<StackRouterScaffold> {
   build(context) {
     final stackRouterInheritedData = StackRouterInheritedData.of(context)!;
     final currentRoute = stackRouterInheritedData.route;
+    final appBar = widget.appBar;
 
     if (!_hasAddedMessenger) {
       _hasAddedMessenger = true;
@@ -126,16 +127,16 @@ class _StackRouterScaffoldState extends State<StackRouterScaffold> {
           children: [
             Container(
               padding: EdgeInsets.only(
-                top: widget.extendBodyBehindAppBar || widget.appBar == null
+                top: widget.extendBodyBehindAppBar || appBar == null
                     ? 0
-                    : widget.appBar!.height,
+                    : appBar.height,
               ),
               child: Container(
                 alignment: widget.alignment,
                 child: widget.child,
               ),
             ),
-            widget.appBar ?? const StackRouterAppBar(),
+            if (appBar != null) appBar,
             StackRouterSnackBarForState(
               event: _latestSnackBarEvent,
             ),

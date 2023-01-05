@@ -19,6 +19,7 @@ class StackRouterInheritedData extends InheritedWidget {
     required StackRouterScaffoldMessenger messenger,
   }) addMessenger;
   final void Function()? onPop;
+  final bool canPop;
 
   const StackRouterInheritedData({
     required this.routeHistory,
@@ -30,6 +31,7 @@ class StackRouterInheritedData extends InheritedWidget {
     required this.hideSnackBar,
     required this.addMessenger,
     required child,
+    required this.canPop,
     this.route,
     this.onPop,
     key,
@@ -82,6 +84,7 @@ class StackRouterInheritedData extends InheritedWidget {
         addMessenger,
     void Function()? onPop,
     Widget? child,
+    bool? canPop,
   }) {
     return StackRouterInheritedData(
       child: child ?? this.child,
@@ -95,6 +98,7 @@ class StackRouterInheritedData extends InheritedWidget {
       addMessenger: addMessenger ?? this.addMessenger,
       route: route ?? this.route,
       onPop: onPop ?? this.onPop,
+      canPop: canPop ?? this.canPop,
     );
   }
 }

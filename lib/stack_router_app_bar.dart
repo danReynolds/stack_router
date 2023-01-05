@@ -31,15 +31,13 @@ class StackRouterAppBar extends StatelessWidget {
   }) : super(key: key);
 
   bool _shouldShowLeadingBackButton(BuildContext context) {
-    final inheritedBottomSheetStack = StackRouterInheritedData.of(context)!;
+    final inheritedData = StackRouterInheritedData.of(context)!;
 
-    final isCurrentRoute = inheritedBottomSheetStack.currentRoute ==
-        inheritedBottomSheetStack.route;
-    final isFirstRoute = inheritedBottomSheetStack.routeHistory.length == 1;
-    final onPop = inheritedBottomSheetStack.onPop;
+    final isCurrentRoute = inheritedData.currentRoute == inheritedData.route;
+    final canPop = inheritedData.canPop;
 
     return isCurrentRoute &&
-        (!isFirstRoute || onPop != null) &&
+        canPop &&
         leading == null &&
         !suppressLeadingBackButton;
   }
@@ -52,7 +50,7 @@ class StackRouterAppBar extends StatelessWidget {
       );
     }
 
-    final inheritedBottomSheetStack = StackRouterInheritedData.of(context)!;
+    final inheritedData = StackRouterInheritedData.of(context)!;
 
     if (_shouldShowLeadingBackButton(context)) {
       return Padding(
@@ -64,7 +62,7 @@ class StackRouterAppBar extends StatelessWidget {
             color: Colors.grey[700],
           ),
           onTap: () {
-            inheritedBottomSheetStack.popRoute();
+            inheritedData.popRoute();
           },
         ),
       );

@@ -1,3 +1,7 @@
+## 2.0.0
+
+API refactors.
+
 ## 1.5.0
 
 Add `switchRoute` API and minor refactors.

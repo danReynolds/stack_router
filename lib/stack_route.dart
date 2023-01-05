@@ -38,6 +38,8 @@ class _StackRouteState extends State<StackRoute> {
         inheritedStackRouterData.currentRoute == widget.route;
     final shouldPersist = widget.persist ??
         inheritedStackRouterData.routeHistory.contains(widget.route);
+    final canPopRoute = inheritedStackRouterData.routeHistory.length > 1 ||
+        widget.onPop != null;
 
     return Visibility(
       visible: isCurrentRoute,
@@ -46,6 +48,7 @@ class _StackRouteState extends State<StackRoute> {
         child: widget.child,
         route: widget.route,
         onPop: widget.onPop,
+        canPop: canPopRoute,
       ),
     );
   }
