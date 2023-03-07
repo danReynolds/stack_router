@@ -53,7 +53,7 @@ class StackRouter extends StatefulWidget {
 
 class StackRouterState extends State<StackRouter> {
   int _stackIndex = 0;
-  List<String> _routeHistory = [];
+  List<String> routeHistory = [];
   Map<String, int> routeIndices = {};
   List<StackRoute>? children;
   late final StackRouterController controller;
@@ -81,11 +81,11 @@ class StackRouterState extends State<StackRouter> {
   }
 
   String? get currentRoute {
-    if (_routeHistory.isEmpty) {
+    if (routeHistory.isEmpty) {
       return null;
     }
 
-    return _routeHistory.last;
+    return routeHistory.last;
   }
 
   /// Displays a [StackRouterSnackBar] bottom of the [StackRouterScaffold] for the given route. Defaults to the current route.
@@ -134,7 +134,7 @@ class StackRouterState extends State<StackRouter> {
   /// Pushes the given route on top of the router stack.
   void pushRoute(String route) {
     setState(() {
-      _routeHistory.add(route);
+      routeHistory.add(route);
     });
     _notifyRouteChange();
   }
@@ -142,8 +142,8 @@ class StackRouterState extends State<StackRouter> {
   /// Removes the current route at the top of the stack and replaces it with the provided one.
   void pushReplacementRoute(String route) {
     setState(() {
-      _routeHistory.removeLast();
-      _routeHistory.add(route);
+      routeHistory.removeLast();
+      routeHistory.add(route);
     });
     _notifyRouteChange();
   }
@@ -153,24 +153,24 @@ class StackRouterState extends State<StackRouter> {
   /// in the stack's history.
   void switchRoute(String route) {
     setState(() {
-      if (_routeHistory.contains(route)) {
-        _routeHistory.remove(route);
+      if (routeHistory.contains(route)) {
+        routeHistory.remove(route);
       }
-      _routeHistory.add(route);
+      routeHistory.add(route);
     });
     _notifyRouteChange();
   }
 
   /// Pops the given route from the router stack history. Defaults to the current route.
   void popRoute([String? route]) {
-    route ??= _routeHistory.last;
+    route ??= routeHistory.last;
 
-    if (!_routeHistory.contains(route)) {
+    if (!routeHistory.contains(route)) {
       return;
     }
 
     setState(() {
-      _routeHistory.remove(route);
+      routeHistory.remove(route);
       children![routeIndices[route]!].onPop?.call();
     });
 
@@ -191,13 +191,13 @@ class StackRouterState extends State<StackRouter> {
     // Initialize the first route by selecting either an initial route or just
     // the first element in the stack. The tab index is set to the index of that route
     // and the history is hydrated with that route.
-    if (_routeHistory.isEmpty) {
+    if (routeHistory.isEmpty) {
       if (widget.initialHistory.isEmpty) {
-        _routeHistory = [initialRoute ?? children![0].route];
+        routeHistory = [initialRoute ?? children![0].route];
       } else {
-        _routeHistory = [...initialHistory];
+        routeHistory = [...initialHistory];
         if (initialRoute != null) {
-          _routeHistory.add(initialRoute);
+          routeHistory.add(initialRoute);
         }
       }
 
@@ -217,7 +217,7 @@ class StackRouterState extends State<StackRouter> {
       pushRoute: pushRoute,
       popRoute: popRoute,
       switchRoute: switchRoute,
-      routeHistory: _routeHistory,
+      routeHistory: routeHistory,
       addMessenger: _addMessenger,
       canPop: false,
       child: IndexedStack(

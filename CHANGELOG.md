@@ -1,3 +1,7 @@
+## 2.0.1
+
+Expose route history API.
+
 ## 2.0.0
 
 API refactors.
